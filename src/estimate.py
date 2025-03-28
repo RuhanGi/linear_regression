@@ -29,7 +29,12 @@ def get():
 def main():
 	theta0, theta1 = load()
 	mileage = get()
-	print(GREEN + "Estimated Price is " + CYAN + f"${theta0 + theta1 * mileage:.2f}" + GREEN + "!" + RESET)
+	prediction = theta0 + theta1 * mileage
+	if mileage < 0 or prediction < 0:
+		print(RED + "Invalid Values!\n" + GREEN + "Regression Output: ")
+	else:
+		print(GREEN + "Estimated Price: ")
+	print(CYAN + f"${prediction:.2f}" + RESET)
 
 if __name__ == "__main__":
-    main()
+	main()
