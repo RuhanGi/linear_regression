@@ -64,7 +64,7 @@ def loadData(fil):
 	try:
 		return np.loadtxt(fil, delimiter=",", skiprows=1)
 	except Exception as e:
-		print(RED + "Error:" + str(e) + RESET)
+		print(RED + "Error: " + str(e) + RESET)
 		sys.exit()
 
 def epoch(nkms, nprices, th0, th1):
@@ -87,7 +87,7 @@ def trainModel(data, th0, th1):
 		th0 = th0 * (np.max(prices) - np.min(prices)) + np.min(prices) - np.min(kms) * th1
 		return th0, th1
 	except Exception as e:
-		print(RED + "Error:" + str(e) + RESET)
+		print(RED + "Error: " + str(e) + RESET)
 		sys.exit()
 
 def main():

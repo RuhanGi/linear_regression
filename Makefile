@@ -1,21 +1,23 @@
 SRCDIR = src
-
-DATA = data.csv
+TSTDIR = test
 
 THETA = thetas.npy
 
 .SILENT:
 
 all:
-	python3 $(SRCDIR)/train.py $(DATA)
+	python3 $(SRCDIR)/train.py $(TSTDIR)/data.csv
 	printf "\x1B[32m Model Trained!\x1B[0m\n";
-	# python3 $(SRCDIR)/estimate.py
 
 e:
 	python3 $(SRCDIR)/estimate.py
 
+t:
+	python3 $(TSTDIR)/gencsv.py
+	python3 $(SRCDIR)/train.py $(TSTDIR)/line.csv
+
 clean:
-	
+	rm -rf $(TSTDIR)/line.csv
 
 fclean: clean
 	rm -rf $(THETA)
