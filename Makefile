@@ -22,9 +22,9 @@ clean:
 fclean: clean
 	rm -rf $(THETA)
 
-gpush:
+gpush: fclean
 	git add .
-	git commit -m "makefile"
+	git commit -m "tolerance"
 	git push
 
 re: fclean all

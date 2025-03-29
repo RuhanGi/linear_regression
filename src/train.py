@@ -79,13 +79,16 @@ def trainModel(data, th0, th1):
 	try:
 		kms, prices = data[:, 0], data[:, 1]
 		nkms, nprices = normalize(kms), normalize(prices)
-		iterations = 500
+		maxiterations = 1000
 		tolerance = 10**-6
 
-		th0, th1, prvth0, prvth1 = epoch(nkms, nprices, th0, th1), th0, th1
-		while abs(th0-prvth0) > tolerance or abs(th1-prvth1) > tolerance:
-			th0, th1, prvth0, prvth1 = epoch(nkms, nprices, th0, th1), th0, th1
-
+		prvth0, prvth1 = th0, th1
+		th0, th1  = epoch(nkms, nprices, th0, th1)
+		while (abs(th0-prvth0) > tolerance or abs(th1-prvth1) > tolerance) and maxiterations > 0:
+			maxiterations -= 1
+			prvth0, prvth1 = th0, th1
+			th0, th1  = epoch(nkms, nprices, th0, th1)
+		print(maxiterations)
 		th1 = th1 * (np.max(prices) - np.min(prices)) / (np.max(kms) - np.min(kms))
 		th0 = th0 * (np.max(prices) - np.min(prices)) + np.min(prices) - np.min(kms) * th1
 		return th0, th1
