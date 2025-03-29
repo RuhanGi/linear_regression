@@ -31,7 +31,7 @@ def r(x, y):
 def normalize(data):
 	return (data - np.min(data)) / (np.max(data) - np.min(data))
 
-def plot(data, th0, th1):
+def plot(headers, data, th0, th1):
 	try:
 		kms, prices = data[:, 0], data[:, 1]
 		predictions = th0 + th1 * kms
@@ -48,8 +48,8 @@ def plot(data, th0, th1):
 					f"y = ({th0:.2f}) + ({th1:.4g})x", color = 'blue')
 		plt.text(min(kms)+0.1*(max(kms)-min(kms)), min(prices)+0.1*(max(prices)-min(prices)), 
 					f"Correlation:\nr = {r(kms, prices):.4f}", color = 'red')
-		plt.xlabel("Mileage (km)")
-		plt.ylabel("Price")
+		plt.xlabel(headers[0])
+		plt.ylabel(headers[1])
 		plt.title("Trained Data")
 		def on_key(event):
 			if event.key == "escape":
@@ -62,7 +62,8 @@ def plot(data, th0, th1):
 
 def loadData(fil):
 	try:
-		return np.loadtxt(fil, delimiter=",", skiprows=1)
+		headers = np.genfromtxt(fil, delimiter=",", dtype=str, max_rows=1)
+		return headers, np.loadtxt(fil, delimiter=",", skiprows=1)
 	except Exception as e:
 		print(RED + "Error: " + str(e) + RESET)
 		sys.exit(1)
@@ -100,9 +101,9 @@ def main():
 	if len(sys.argv) != 2:
 		print(RED + "Pass Training Data!" + RESET)
 		sys.exit()
-	data = loadData(sys.argv[1])
+	headers, data = loadData(sys.argv[1])
 	th0, th1 = trainModel(data, 0, 0)
-	plot(data, th0, th1)
+	plot(headers, data, th0, th1)
 	np.save("thetas.npy", np.array([th0, th1]))
 
 if __name__ == "__main__":

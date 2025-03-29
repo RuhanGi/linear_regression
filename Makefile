@@ -24,7 +24,7 @@ fclean: clean
 
 gpush: fclean
 	git add .
-	git commit -m "clean"
+	git commit -m "axislabels"
 	git push
 
 re: fclean all

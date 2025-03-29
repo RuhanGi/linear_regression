@@ -4,7 +4,7 @@ import random
 def generate_data(n, filename):
 	with open(filename, mode='w', newline='') as file:
 		writer = csv.writer(file)
-		writer.writerow(['km', 'price'])
+		writer.writerow(['Mileage (km)', 'Price ($)'])
 		r = 0.2
 		for x in range(n):
 			y = (-0.021 * (x * 2000) + 8500) * random.uniform(1-r, 1+r)
