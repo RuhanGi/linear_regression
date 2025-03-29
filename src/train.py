@@ -82,12 +82,13 @@ def trainModel(data, th0, th1):
 		maxiterations = 1000
 		tolerance = 10**-6
 
-		prvth0, prvth1 = th0, th1
-		th0, th1  = epoch(nkms, nprices, th0, th1)
-		while (abs(th0-prvth0) > tolerance or abs(th1-prvth1) > tolerance) and maxiterations > 0:
-			maxiterations -= 1
+		while True:
 			prvth0, prvth1 = th0, th1
 			th0, th1  = epoch(nkms, nprices, th0, th1)
+			maxiterations -= 1
+			if (abs(th0-prvth0) < tolerance and abs(th1-prvth1) < tolerance) or maxiterations == 0:
+				break
+
 		th1 = th1 * (np.max(prices) - np.min(prices)) / (np.max(kms) - np.min(kms))
 		th0 = th0 * (np.max(prices) - np.min(prices)) + np.min(prices) - np.min(kms) * th1
 		return th0, th1
