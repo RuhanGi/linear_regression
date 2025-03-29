@@ -58,14 +58,14 @@ def plot(data, th0, th1):
 		plt.show()
 	except Exception as e:
 		print(RED + "Error in Plotting: " + str(e) + RESET)
-		sys.exit()
+		sys.exit(1)
 
 def loadData(fil):
 	try:
 		return np.loadtxt(fil, delimiter=",", skiprows=1)
 	except Exception as e:
 		print(RED + "Error: " + str(e) + RESET)
-		sys.exit()
+		sys.exit(1)
 
 def epoch(nkms, nprices, th0, th1):
 	learningRate = 0.6
@@ -80,15 +80,18 @@ def trainModel(data, th0, th1):
 		kms, prices = data[:, 0], data[:, 1]
 		nkms, nprices = normalize(kms), normalize(prices)
 		iterations = 500
+		tolerance = 10**-6
 
-		for i in range(iterations):
-			th0, th1 = epoch(nkms, nprices, th0, th1)
+		th0, th1, prvth0, prvth1 = epoch(nkms, nprices, th0, th1), th0, th1
+		while abs(th0-prvth0) > tolerance or abs(th1-prvth1) > tolerance:
+			th0, th1, prvth0, prvth1 = epoch(nkms, nprices, th0, th1), th0, th1
+
 		th1 = th1 * (np.max(prices) - np.min(prices)) / (np.max(kms) - np.min(kms))
 		th0 = th0 * (np.max(prices) - np.min(prices)) + np.min(prices) - np.min(kms) * th1
 		return th0, th1
 	except Exception as e:
 		print(RED + "Error: " + str(e) + RESET)
-		sys.exit()
+		sys.exit(1)
 
 def main():
 	if len(sys.argv) != 2:

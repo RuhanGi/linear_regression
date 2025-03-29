@@ -6,8 +6,8 @@ THETA = thetas.npy
 .SILENT:
 
 all:
-	python3 $(SRCDIR)/train.py $(TSTDIR)/data.csv
-	printf "\x1B[32m Model Trained!\x1B[0m\n";
+	python3 $(SRCDIR)/train.py $(TSTDIR)/data.csv \
+	&& printf "\x1B[32m Model Trained!\x1B[0m\n" || true
 
 e:
 	python3 $(SRCDIR)/estimate.py
@@ -21,5 +21,10 @@ clean:
 
 fclean: clean
 	rm -rf $(THETA)
+
+gpush:
+	git add .
+	git commit -m "makefile"
+	git push
 
 re: fclean all

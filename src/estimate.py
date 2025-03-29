@@ -17,14 +17,14 @@ def load():
 		return theta0, theta1
 	except:
 		print(RED + "Improper training file!" + RESET)
-		sys.exit()
+		sys.exit(1)
 
 def get():
 	try:
 		return float(input(BLUE + "Mileage (km): " + YELLOW))
 	except:
 		print(RED + "Input a Number!" + RESET)
-		sys.exit()
+		sys.exit(1)
 
 def main():
 	theta0, theta1 = load()
