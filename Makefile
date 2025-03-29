@@ -10,7 +10,7 @@ all:
 	&& printf "\x1B[32m Model Trained!\x1B[0m\n" || true
 
 e:
-	python3 $(SRCDIR)/estimate.py
+	python3 $(SRCDIR)/estimate.py || true
 
 t:
 	python3 $(TSTDIR)/gencsv.py
@@ -24,7 +24,7 @@ fclean: clean
 
 gpush: fclean
 	git add .
-	git commit -m "tolerance"
+	git commit -m "clean"
 	git push
 
 re: fclean all

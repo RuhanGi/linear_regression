@@ -16,8 +16,8 @@ def load():
 		theta0, theta1 = np.load("thetas.npy")
 		return theta0, theta1
 	except:
-		print(RED + "Improper training file!" + RESET)
-		sys.exit(1)
+		print(RED + "Improper training file! Defaulting to (0, 0)" + RESET)
+		return 0, 0
 
 def get():
 	try:
